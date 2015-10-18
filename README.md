@@ -43,7 +43,8 @@ The following two queries were defined:
         filtered_sessions = sessions.filter(Session.highlights == request.highlight)
 
 2. Given a duration and an startTime, return all sessions that have a duration less than the specified duration and the
-startTime is less than the specified startTime, across all conferences. For this query the following index was added to the file ***index.yaml***. 
+startTime is less than the specified startTime, across all conferences. For this query the following index was added to the file ***index.yaml***.
+
 
         - kind: Session
           properties:
@@ -82,6 +83,7 @@ doesn't work due the following restriction of the ***Data Store***
         
 The solution is filter by the type and iterate for the result in order to filter by the start time
 
+        sessions = Session.query()
         # filter sessions by type
         filtered_type = sessions.filter(Session.typeOfSession != request.typeOfSession)
         
