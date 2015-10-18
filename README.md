@@ -33,18 +33,19 @@ in order to add functionality related to the different ***sessions* in a ***conf
         
 ### Task 3: Work on indexes and queries
 
-The following queries were defined:
+The following two queries were defined:
 
 1. 
 
 2. Given a duration and an startTime, return all sessions that have a duration less than the specified duration and the
-startTime is less than the specified startTime. For this query the following index was added to the file ***index.yaml***. 
+startTime is less than the specified startTime, across all conferences. For this query the following index was added to the file ***index.yaml***. 
 
         - kind: Session
           properties:
           - name: duration
           - name: startTime
-Theis is the implementation of the query
+          
+This is the implementation of the query
 
         sessions = Session.query()
         
