@@ -77,6 +77,12 @@ Regarding the following question:
         
 This implementation
 
+        sessions = Session.query()
+        # filter sessions by type and starrtime
+        request_time = urllib2.unquote(request.startTime)
+        startTime = ConferenceApi._stringToTime(request_time)
+        filtered_session = sessions.filter(Session.typeOfSession != request.typeOfSession, session.startTime <= startTime)
+
 doesn't work due the following restriction of the ***Data Store***
 
         Only one inequality filter per query is supported. Encountered both duration and startTime
@@ -129,11 +135,3 @@ These are the helper methods created in order to work with the ***memcache***
                 """ Get the featured speaker cache key for a conference"""
                 return '%s_%s' % (MEMCACHE_FEATURED_SPEAKER_KEY, websafeConferenceKey)
     
-    
-    
-        
-
-        
-       
-        
-
