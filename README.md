@@ -81,7 +81,8 @@ This implementation
         # filter sessions by type and starrtime
         request_time = urllib2.unquote(request.startTime)
         startTime = ConferenceApi._stringToTime(request_time)
-        filtered_session = sessions.filter(Session.typeOfSession != request.typeOfSession, session.startTime <= startTime)
+        filtered_session = sessions.filter(Session.typeOfSession != request.typeOfSession
+                                        , session.startTime <= startTime)
 
 doesn't work due the following restriction of the ***Data Store***
 
