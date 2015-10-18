@@ -44,7 +44,6 @@ startTime is less than the specified startTime, across all conferences. For this
           properties:
           - name: duration
           - name: startTime
-          
 This is the implementation of the query
 
         sessions = Session.query()
