@@ -36,7 +36,7 @@ in order to add functionality related to the different ***sessions* in a ***conf
 The following two queries were defined:
 
 1. Given a highlight, return all sessions given by this particular highlight, across all conferences. An index for only one field is not required. This is the implemnetation of this query
-        
+
         sessions = Session.query()
         
         # filter sessions by speaker
@@ -67,6 +67,30 @@ This is the implementation of the query
         
         # return a Sessionforms       
         return session_forms
+        
+Regarding the following question:
+
+        Solve the following query related problem: Let’s say that you don't like workshops and you don't like sessions after 7 pm. How would you handle a query for all non-workshop sessions before 7 pm?
+        
+This implementation
+
+doesn't work due the following restriction of the ***Data Store***
+
+        Only one inequality filter per query is supported. Encountered both duration and startTime
+        
+The solution is filter by the type and iterate for the result in order to filter by the start time
+
+        # filter sessions by type
+        filtered_type = sessions.filter(Session.typeOfSession != request.typeOfSession)
+        
+        # filter by start time
+        request_time = urllib2.unquote(request.startTime)
+        startTime = ConferenceApi._stringToTime(request_time)
+        
+        session_forms = SessionForms(items=[])        
+        for session in filtered_type:
+            if session.startTime <= startTime:
+                session_forms.items.append(self._copySessionToForm(session))
         
 ### Task 4: Add a Task 
 
