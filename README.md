@@ -70,7 +70,9 @@ This is the implementation of the query
         
 Regarding the following question:
 
-        Solve the following query related problem: Let’s say that you don't like workshops and you don't like sessions after 7 pm. How would you handle a query for all non-workshop sessions before 7 pm?
+        Solve the following query related problem: Let’s say that you don't
+        like workshops and you don't like sessions after 7 pm. How would you handle a query for
+        all non-workshop sessions before 7 pm?
         
 This implementation
 
