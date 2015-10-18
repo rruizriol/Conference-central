@@ -17,7 +17,7 @@ in order to add functionality related to the different ***sessions* in a ***conf
 * Clone or download **Conference-central** repository on Github
 * Follow the instructions of the *README.md* file inside the folder *AppCode*
 
-## Task
+## Tasks
 
 ### Task 1: Add Sessions to a Conference 
 
@@ -33,13 +33,36 @@ in order to add functionality related to the different ***sessions* in a ***conf
         
 ### Task 3: Work on indexes and queries
 
-        cd /home/grader
-        mkdir .ssh
-        cp /root/.ssh/authorized_keys /home/grader/.ssh/
-        chmod 700 .ssh
-        chmod 644 .ssh/authorized_keys
-        chown -R grader .ssh
-        chgrp -R grader .ssh
+The following queries were defined:
+
+1. 
+
+2. Given a duration and an startTime, return all sessions that have a duration less than the specified duration and the
+startTime is less than the specified startTime. For this query the following index was added to the file ***index.yaml***
+
+        - kind: Session
+          properties:
+          - name: duration
+          - name: startTime
+
+This is the implementation of this query
+
+        sessions = Session.query()
+        
+        # filter sessions by duration and start time
+        filtered_duration = sessions.filter(Session.duration <= int(request.duration))
+        
+        # filter by start time
+        request_time = urllib2.unquote(request.startTime)
+        startTime = ConferenceApi._stringToTime(request_time)
+        
+        session_forms = SessionForms(items=[])        
+        for session in filtered_duration:
+            if session.startTime <= startTime:
+                session_forms.items.append(self._copySessionToForm(session))
+        
+        # return a Sessionforms       
+        return session_forms
         
 ### Task 4: Add a Task 
 
@@ -54,6 +77,8 @@ After created a session a task was generated in order to set the featured speake
         )
 
 The task received as a parameter the the ***session's speaker*** and the ***conference's websafe key***. When the task is executed, it check if the speaker mets the condictions of a featured speaker (the speaker is the speaker in more thana one conference). If the spaeker is a featured speaker the speaker's value is persisted in the ***memcache***. The key for the vaiue in the ***memcache*** is built using a default key and the ***conference's websafe key***  
+
+These are the helper methods created in order to work with the ***memcache***
 
         @staticmethod
         def _setFeaturedSpeakerInCache(websafeConferenceKey, speaker):
