@@ -19,15 +19,17 @@ in order to add functionality related to the different ***sessions* in a ***conf
 
 ## Task
 
-1. Create a new user named ***grader***
+1. Add Sessions to a Conference 
 
         sudo adduser grader
-2. Give the grader the permission to sudo
+        
+2. Add Sessions to User Wishlist
 
         sudo nano /etc/sudoers.d/grader
         # Add this line and save the file
         grader ALL=(ALL) NOPASSWD:ALL
-3. Copy authorized keys to new user and set privileges
+        
+3. Work on indexes and queries
 
         cd /home/grader
         mkdir .ssh
@@ -36,7 +38,8 @@ in order to add functionality related to the different ***sessions* in a ***conf
         chmod 644 .ssh/authorized_keys
         chown -R grader .ssh
         chgrp -R grader .ssh
-4. Logout and loging as the grader user
+        
+4. Add a Task 
 
         logout
         ssh -p 22 -i "./ssh/udacity_key.rsa" grader@54.148.43.195
