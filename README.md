@@ -19,11 +19,11 @@ in order to add functionality related to the different ***sessions* in a ***conf
 
 ## Task
 
-1. Add Sessions to a Conference 
+### Task 1: Add Sessions to a Conference 
 
         sudo adduser grader
         
-2. Add Sessions to User Wishlist
+### Task 2: Add Sessions to User Wishlist
    
    The tash
 
@@ -31,7 +31,7 @@ in order to add functionality related to the different ***sessions* in a ***conf
         # Add this line and save the file
         grader ALL=(ALL) NOPASSWD:ALL
         
-3. Work on indexes and queries
+### Task 3: Work on indexes and queries
 
         cd /home/grader
         mkdir .ssh
@@ -41,7 +41,7 @@ in order to add functionality related to the different ***sessions* in a ***conf
         chown -R grader .ssh
         chgrp -R grader .ssh
         
-4. Add a Task 
+### Task 4: Add a Task 
 
 After created a session a task was generated in order to set the featured speaker for a conference. The task was implemented using the ***taskqueue** class of the ***google app engine***. 
 
@@ -55,15 +55,24 @@ After created a session a task was generated in order to set the featured speake
 
 The task received as a parameter the the ***session's speaker*** and the ***conference's websafe key***. When the task is executed, it check if the speaker mets the condictions of a featured speaker (the speaker is the speaker in more thana one conference). If the spaeker is a featured speaker the speaker's value is persisted in the ***memcache***. The key for the vaiue in the ***memcache*** is built using a default key and the ***conference's websafe key***  
 
+        @staticmethod
         def _setFeaturedSpeakerInCache(websafeConferenceKey, speaker):
                 """ Set the featured speaker for the conference from memcache"""
                 cache_key = ConferenceApi._getFeaturedSpeakerCacheKey(websafeConferenceKey)
                 memcache.set(cache_key, speaker)
                 
+        @staticmethod        
         def _getFeaturedSpeakerInCache(websafeConferenceKey):
                 """ Set the featured speaker for the conference in memcache"""
                 cache_key = ConferenceApi._getFeaturedSpeakerCacheKey(websafeConferenceKey)
                 return memcache.get(cache_key) or ""
+                
+        @staticmethod       
+        def _getFeaturedSpeakerCacheKey(websafeConferenceKey):
+                """ Get the featured speaker cache key for a conference"""
+                return '%s_%s' % (MEMCACHE_FEATURED_SPEAKER_KEY, websafeConferenceKey)
+    
+    
     
         
 
