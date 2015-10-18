@@ -44,7 +44,7 @@ These are the definition of the ***Session** class and the ***SessionForm*** cla
             startTime       = messages.StringField(7)  # TimeField() HH:MM
             websafeKey      = messages.StringField(8)
 
-In the model the ***session*** belongs to a ***conference***. When a session is created a ***conference*** is specified as the ***session's parent***, this created an ancestor relation between the ***conference*** and the ***session***. Regarding the desing of the class most of the attribute are defined as ***string*** type, except the ***date*** field and the ***starTime*** field. the speaker was defined as an attribute of the entity session, and no as a separed entity. The  denormalization solution was choosen because there no was enough requirements that justify the creation of a separate entity for the speaker. also this solution optimize the process of data reading
+In the model, the ***session*** belongs to a ***conference***. When a session is created a ***conference*** is specified as the ***session's parent***, this created an ancestor type relation between the ***conference*** and the ***session***. Regarding the desing of the class, most of the attribute are defined as ***string*** type, except the ***date*** field and the ***starTime*** field. The speaker was defined as an attribute of the entity session, and no as an entity. The  denormalization solution was choosen because there no was enough requirements that justify the creation of an entity for the speaker. Also this solution optimizes the process of data reading
         
 ### Task 2: Add Sessions to User Wishlist
 
