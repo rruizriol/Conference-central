@@ -21,16 +21,57 @@ in order to add functionality related to the different ***sessions* in a ***conf
 
 ### Task 1: Add Sessions to a Conference 
 
-        sudo adduser grader
+These are the definition of the ***Session** class and the ***SessionForm*** class
+
+        class  Session(ndb.Model):
+            """Session -- Session object"""
+            name            = ndb.StringProperty(required=True)
+            highlights      = ndb.StringProperty(repeated=True)
+            speaker         = ndb.StringProperty() (required=True)
+            duration        = ndb.IntegerProperty()
+            typeOfSession   = ndb.StringProperty()
+            date            = ndb.DateProperty(required=True)
+            startTime       = ndb.TimeProperty(required=True)
+        
+        class SessionForm(messages.Message):
+            """SessionForm -- Session outbound form message"""
+            name            = messages.StringField(1)
+            highlights      = messages.StringField(2, repeated=True)
+            speaker         = messages.StringField(3)
+            duration        = messages.IntegerField(4)
+            typeOfSession   = messages.StringField(5)
+            date            = messages.StringField(6)  # DateTimeField() Y-m-dd
+            startTime       = messages.StringField(7)  # TimeField() HH:MM
+            websafeKey      = messages.StringField(8)
+
+In the model the ***session*** belongs to a ***conference***. When a session is created a ***conference*** is specified as the ***session's parent***, this created an ancestor relation between the ***conference*** and the ***session***. Regarding the desing of the class most of the attribute are defined as ***string*** type, except the ***date*** field and the ***starTime*** field. the speaker was defined as an attribute of the entity session, and no as a separed entity. The  denormalization solution was choosen because there no was enough requirements that justify the creation of a separate entity for the speaker. also this solution optimize the process of data reading
         
 ### Task 2: Add Sessions to User Wishlist
-   
-   The tash
 
-        sudo nano /etc/sudoers.d/grader
-        # Add this line and save the file
-        grader ALL=(ALL) NOPASSWD:ALL
-        
+The wish list was impleted as an array property in the ***Profile*** class
+
+        class Profile(ndb.Model):
+            """Profile -- User profile object"""
+            displayName = ndb.StringProperty()
+            mainEmail = ndb.StringProperty()
+            teeShirtSize = ndb.StringProperty(default='NOT_SPECIFIED')
+            conferenceKeysToAttend = ndb.StringProperty(repeated=True)
+            
+            # session wish list
+            sessionKeysWishlist = ndb.StringProperty(repeated=True)
+
+Also the property was added to the ***ProfileForm*** class
+
+        class ProfileForm(messages.Message):
+           """ProfileForm -- Profile outbound form message"""
+            displayName = messages.StringField(1)
+            mainEmail = messages.StringField(2)
+            teeShirtSize = messages.EnumField('TeeShirtSize', 3)
+            conferenceKeysToAttend = messages.StringField(4, repeated=True)
+            
+            # session wish list
+            sessionKeysWishlist = messages.StringField(5, repeated=True)
+         
 ### Task 3: Work on indexes and queries
 
 The following two queries were defined:
