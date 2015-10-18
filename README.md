@@ -35,7 +35,12 @@ in order to add functionality related to the different ***sessions* in a ***conf
 
 The following two queries were defined:
 
-1. 
+1. Given a highlight, return all sessions given by this particular highlight, across all conferences. An index for only one field is not required. This is the implemnetation of this query
+        
+        sessions = Session.query()
+        
+        # filter sessions by speaker
+        filtered_sessions = sessions.filter(Session.highlights == request.highlight)
 
 2. Given a duration and an startTime, return all sessions that have a duration less than the specified duration and the
 startTime is less than the specified startTime, across all conferences. For this query the following index was added to the file ***index.yaml***. 
